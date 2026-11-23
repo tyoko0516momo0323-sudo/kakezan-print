@@ -1,0 +1,347 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#2563eb">
+  <meta name="description" content="小学校2年生向けの、タブレットで取り組めるかけ算九九プリント。問題作成・自動採点・印刷ができます。">
+  <title>かけざんプリント | 2年生 算数</title>
+  <style>
+    :root{color-scheme:light;--ink:#192b46;--muted:#596b85;--blue:#2462dc;--deep:#1e4292;--sky:#ecf5ff;--line:#d9e4f3;--green:#087c56;--pink:#bd3c53;--paper:#fff;--gold:#fff4d2;--shadow:0 10px 35px rgba(28,61,117,.075)}
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;background:linear-gradient(180deg,#eaf4ff 0,#f6f9fe 390px,#f5f8fe 100%);font-family:"Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,"Noto Sans JP",system-ui,sans-serif;color:var(--ink);font-size:16px;-webkit-text-size-adjust:100%}
+    button,input,select{font:inherit}
+    button{cursor:pointer;touch-action:manipulation}
+    button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #f6a523;outline-offset:3px}
+    .shell{max-width:1090px;padding:22px 22px 55px;margin:0 auto}
+    .masthead{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;margin:0 0 18px}
+    .brand{display:flex;align-items:center;gap:14px}
+    .brand-mark{width:54px;height:54px;border-radius:18px;background:#2563eb;color:white;display:grid;place-items:center;font-size:30px;font-weight:900;box-shadow:0 7px 15px #2563eb30}
+    .brand h1{margin:0;font-size:clamp(24px,3.2vw,34px);letter-spacing:.025em;line-height:1.25}
+    .brand p{margin:3px 0 0;color:#64748b;font-size:13px;font-weight:700}
+    .pill{padding:9px 13px;border-radius:100px;background:#fff;border:1px solid var(--line);color:#557399;font-weight:800;font-size:13px}
+    .toolbar{display:flex;flex-wrap:wrap;gap:9px;margin:0 0 18px}
+    .btn{border:0;border-radius:13px;min-height:49px;padding:11px 17px;font-weight:800;letter-spacing:.02em;white-space:nowrap;display:inline-flex;align-items:center;justify-content:center;gap:7px;box-shadow:0 3px 8px #1238760c;transition:transform .1s,background .15s}
+    .btn:active{transform:translateY(1px)}
+    .btn-primary{background:#2864dd;color:white}.btn-primary:hover{background:#1850c1}
+    .btn-success{background:#058763;color:#fff}.btn-success:hover{background:#026c4d}
+    .btn-light{background:#fff;border:1px solid #cad9ed;color:#304869}
+    .btn-light:hover{background:#f2f7ff}
+    .btn-gold{background:#fff3c7;color:#71501b;border:1px solid #f5df91}
+    .settings{background:#fff;border:1px solid #dde8f5;border-radius:22px;box-shadow:var(--shadow);padding:22px 25px;margin-bottom:22px}
+    .section-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:15px}
+    .section-head h2{font-size:18px;margin:0;white-space:nowrap}
+    .section-head small{font-size:12px;color:#66768e}
+    .settings-grid{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:20px 26px;align-items:start}
+    .field-title{font-size:14px;font-weight:850;color:#30425e;margin:0 0 9px}
+    .dan-group{display:flex;flex-wrap:wrap;gap:7px}
+    .dan{width:44px;height:44px;border:1.5px solid #cad9ee;border-radius:12px;background:#fff;color:#37577e;font-size:19px;font-weight:850}
+    .dan.selected{background:#2364da;color:#fff;border-color:#2364da;box-shadow:0 3px 10px #2364da26}
+    .dan-all{width:auto;min-width:76px;padding:0 10px;font-size:14px}
+    .form-row{display:grid;grid-template-columns:1fr 1fr;gap:13px}
+    .setting-select{display:block;width:100%;height:45px;border:1.5px solid #cfdbec;border-radius:12px;background:#fff;padding:0 9px;color:#243e5e;font-weight:750}
+    .help-inline{color:#75849a;font-size:12px;margin:9px 0 0;line-height:1.6}
+    .workspace{max-width:900px;margin:0 auto}
+    .paper{background:var(--paper);border:1px solid #dce6f3;border-radius:16px;box-shadow:0 12px 37px #204c9510;padding:34px 39px 35px;position:relative}
+    .paper-top{display:flex;justify-content:space-between;align-items:center;color:#71809a;font-size:13px;font-weight:700;gap:8px}
+    .paper-school{color:var(--blue);font-weight:900}
+    .paper-title{margin:10px 0 22px;font-size:clamp(27px,4vw,38px);letter-spacing:.07em;text-align:center;line-height:1.3}
+    .paper-title small{display:inline-block;font-size:18px;letter-spacing:0;font-weight:800;color:#5c7ca7}
+    .student{display:flex;justify-content:flex-end;gap:12px;align-items:center;flex-wrap:wrap;padding-bottom:17px;border-bottom:3px double #cbd9e9}
+    .student label{display:flex;align-items:center;gap:6px;font-size:14px;font-weight:750;white-space:nowrap}
+    .student input{width:43px;border:0;border-bottom:1.6px solid #7e92ae;border-radius:0;background:transparent;padding:6px 4px;text-align:center;font-size:17px;font-weight:700;color:var(--ink)}
+    .student .name{width:155px;text-align:left}
+    .instruction{margin:18px 0 20px;background:#ecf6ff;border-radius:12px;padding:12px 16px;color:#335f91;font-size:14px;font-weight:750;display:flex;gap:8px;align-items:center}
+    .question-grid{display:grid;grid-template-columns:1fr 1fr;column-gap:34px;row-gap:11px;align-items:stretch}
+    .q-item{position:relative;min-width:0;min-height:65px;padding:12px 10px;display:flex;gap:9px;align-items:center;border:1.5px solid transparent;border-radius:12px;transition:border-color .16s,background .16s}
+    .q-item:focus-within{background:#f0f6ff;border-color:#abc8ff}
+    .q-item.correct{background:#f1fcf7;border-color:#acdec8}
+    .q-item.incorrect{background:#fff3f4;border-color:#f3c5cd}
+    .q-number{color:#72839d;font-size:13px;font-weight:850;min-width:27px;align-self:flex-start;margin-top:11px;font-variant-numeric:tabular-nums}
+    .equation{display:flex;align-items:center;gap:7px;min-width:0;font-size:clamp(21px,2.7vw,28px);font-weight:800;letter-spacing:.01em;white-space:nowrap;font-variant-numeric:tabular-nums}
+    .answer-input{width:69px;height:48px;padding:3px 6px;text-align:center;font-size:25px;font-weight:850;letter-spacing:.02em;border:2px solid #afbfda;background:#fff;color:#173a6c;border-radius:9px;outline-offset:1px;appearance:textfield;-webkit-appearance:none}
+    .answer-input::placeholder{color:#cad5e3}
+    .q-item.correct .answer-input{border-color:#2a9f72;color:#06734c}
+    .q-item.incorrect .answer-input{border-color:#de7080;color:#9a3450}
+    .q-mark{width:27px;font-size:25px;font-weight:900;display:inline-grid;place-items:center;flex:none}
+    .correct .q-mark{color:#0a9665}.incorrect .q-mark{color:#d64559}
+    .solution{font-size:14px;font-weight:850;color:#bb3656;white-space:nowrap;margin-left:1px}
+    .solution:empty{display:none}
+    .progress-wrap{margin:27px 0 0;display:flex;align-items:center;gap:12px;font-size:13px;font-weight:750;color:#526983}
+    .progress{height:10px;border-radius:20px;background:#e5edf8;flex:1;overflow:hidden}
+    .progress-inner{width:0;height:100%;background:#3b82f6;transition:width .15s}
+    .grade-area{margin-top:20px;scroll-margin-top:20px}
+    .result{border-radius:15px;border:2px solid #b7e1cf;background:#f4fff9;padding:18px 22px;display:flex;gap:20px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+    .result-score{font-size:40px;line-height:1.2;font-weight:900;color:#087c56;white-space:nowrap}
+    .result-score small{font-size:21px}
+    .result-text{font-weight:850;font-size:18px;margin:0 0 5px}
+    .result-hint{font-size:13px;color:#5b7483;margin:0;line-height:1.6}
+    .result-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+    .foot{margin:16px auto 0;max-width:900px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;font-size:12px;color:#8290a5;line-height:1.8}
+    .floating-keypad{position:fixed;z-index:30;bottom:calc(15px + env(safe-area-inset-bottom));right:max(16px,calc((100vw - 1070px)/2));width:260px;background:#fff;box-shadow:0 13px 45px #102c5570;border:1px solid #bdd1ea;border-radius:18px;padding:12px;display:none}
+    .floating-keypad.visible{display:block}
+    .keypad-top{display:flex;justify-content:space-between;align-items:center;gap:5px;margin-bottom:9px;font-weight:800;font-size:13px;color:#456386}
+    .keypad-close{border:0;background:#e9eff8;color:#41536e;border-radius:8px;padding:5px 9px;font-size:14px;font-weight:850}
+    .keypad-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
+    .key{height:51px;border-radius:10px;background:#f3f7fd;border:1px solid #cdd9e9;font-weight:900;font-size:24px;color:#233d5f}
+    .key:active{background:#cedffa}
+    .key.action{background:#ebf8f1;color:#087c56;font-size:14px;border-color:#b9ddc9}
+    .key.delete{background:#fff1f2;color:#b6465a;font-size:18px;border-color:#f3c4cb}
+    .keypad-mode{display:flex;gap:8px;align-items:center;margin-top:18px;font-size:13px;color:#627590;flex-wrap:wrap}
+    .keypad-mode label{cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+    .keypad-mode input{width:18px;height:18px;accent-color:#2364da}
+    .hidden{display:none!important}
+    @media(max-width:700px){
+      .shell{padding:17px 12px 36px}.masthead{gap:8px}.brand-mark{width:45px;height:45px;border-radius:13px;font-size:25px}.brand{gap:9px}.pill{display:none}
+      .toolbar{display:grid;grid-template-columns:1fr 1fr;gap:8px}.toolbar .btn{padding:10px 8px;font-size:14px;min-height:49px}
+      .settings{padding:17px 16px;border-radius:17px}.settings-grid{grid-template-columns:1fr;gap:15px}.dan{width:42px;height:42px}.dan-all{width:auto}
+      .paper{padding:21px 13px 25px;border-radius:14px}.paper-title{font-size:28px;margin:15px 0 14px}.paper-title small{font-size:14px}
+      .paper-top{font-size:11px}.student{gap:9px}.student label{font-size:12px}.student input{width:38px}.student .name{width:110px}
+      .instruction{font-size:12px;margin:14px 0 12px;padding:10px 11px}
+      .question-grid{grid-template-columns:1fr;row-gap:5px}.q-item{min-height:58px;padding:7px 8px;gap:10px}
+      .q-number{margin-top:11px}.equation{font-size:25px;gap:8px}.answer-input{width:75px;height:47px;font-size:26px}
+      .progress-wrap{margin-top:16px}.foot{font-size:11px}.floating-keypad{bottom:calc(8px + env(safe-area-inset-bottom));right:8px;width:min(268px,calc(100vw - 16px))}
+    }
+    @media(max-width:360px){.equation{font-size:22px;gap:5px}.q-item{gap:5px}.student .name{width:94px}.dan{width:38px;height:40px}}
+    @page{size:A4 portrait;margin:12mm}
+    @media print{
+      html,body{background:#fff!important;color:black;font-family:"Yu Gothic",Meiryo,sans-serif;font-size:12pt}
+      .shell{width:100%;max-width:100%;margin:0;padding:0}
+      .masthead,.toolbar,.settings,.foot,.floating-keypad,.progress-wrap,.keypad-mode,.result-actions,.screen-only{display:none!important}
+      .workspace{max-width:100%;margin:0}
+      .paper{box-shadow:none;border:0;padding:0;border-radius:0}
+      .paper-top{color:black;font-size:9pt}.paper-school{color:#333}
+      .paper-title{font-size:22pt;margin:3mm 0 7mm;color:#000}
+      .paper-title small{font-size:12pt;color:#333}
+      .student{padding-bottom:4mm;border-color:#888}.student input{font-size:11pt;color:#000;border-bottom-color:#333}
+      .instruction{background:none;color:#333;font-size:10pt;padding:0;margin:5mm 0}
+      .question-grid{grid-template-columns:1fr 1fr;column-gap:10mm;row-gap:1mm}
+      .q-item{break-inside:avoid;min-height:17mm;padding:2mm 1mm;border:0!important;border-radius:0;background:transparent!important}
+      .q-number{font-size:9pt;color:#555;min-width:7mm;margin-top:2mm}
+      .equation{font-size:16pt;gap:3mm;color:#000}.answer-input{height:13mm;width:18mm;border:1.2px solid #444!important;border-radius:2mm;background:white!important;color:black!important;font-size:15pt}
+      .q-mark,.solution{color:#555!important;font-size:11pt}
+      .grade-area{margin-top:5mm}.result{background:white;border:1px solid #999;padding:3mm 6mm}.result-score{color:#000;font-size:20pt}
+      body.print-blank .answer-input{color:transparent!important;-webkit-text-fill-color:transparent!important}
+      body.print-blank .q-mark,body.print-blank .solution,body.print-blank .grade-area{display:none!important}
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <header class="masthead">
+      <div class="brand"><div class="brand-mark" aria-hidden="true">×</div><div><h1>かけざんプリント</h1><p>タブレットでできる！ ２年生の九九れんしゅう</p></div></div>
+      <div class="pill">✏️ なんどでも ちょうせん！</div>
+    </header>
+    <nav class="toolbar" aria-label="プリントのそうさ">
+      <button class="btn btn-primary" id="createBtn" type="button">🔄 もんだいをつくる</button>
+      <button class="btn btn-success" id="gradeBtn" type="button">💮 こたえあわせ</button>
+      <button class="btn btn-light" id="printBtn" type="button">🖨️ いんさつする</button>
+      <button class="btn btn-gold" id="revealBtn" type="button" aria-pressed="false">👀 こたえをみる</button>
+    </nav>
+    <section class="settings" aria-label="もんだいのせってい">
+      <div class="section-head"><h2>⚙️ もんだいの せってい</h2><small>好きな だんを えらべるよ</small></div>
+      <div class="settings-grid">
+        <div>
+          <p class="field-title">① れんしゅうする だん （いくつでも OK）</p>
+          <div class="dan-group" id="danGroup" role="group" aria-label="かけざんのだんをえらぶ"></div>
+          <p class="help-inline">青い すうじの だんが もんだいに でるよ。</p>
+        </div>
+        <div>
+          <div class="form-row">
+            <div><label class="field-title" for="countSelect">② もんだいの かず</label><select id="countSelect" class="setting-select"><option value="10">10もん</option><option value="20" selected>20もん</option><option value="25">25もん</option></select></div>
+            <div><label class="field-title" for="orderSelect">③ ならびかた</label><select id="orderSelect" class="setting-select"><option value="random" selected>ばらばら</option><option value="ordered">じゅんばん</option></select></div>
+          </div>
+          <div style="margin-top:12px"><label class="field-title" for="typeSelect">④ もんだいの しゅるい</label><select id="typeSelect" class="setting-select"><option value="answer">こたえを かんがえる（3 × 4 = □）</option><option value="missing">□に はいる数（3 × □ = 12）</option></select></div>
+          <div class="keypad-mode"><label for="keypadToggle"><input type="checkbox" id="keypadToggle"> がめんの すうじボタンで いれる</label></div>
+        </div>
+      </div>
+    </section>
+    <div class="workspace">
+      <section class="paper" id="paper" aria-label="かけざんプリント">
+        <div class="paper-top"><span class="paper-school">２年生　算数</span><span id="printId">かけざんプリント ①</span></div>
+        <h2 class="paper-title">かけざん <small id="paperSubtitle">（ぜんぶの だん）</small></h2>
+        <div class="student" aria-label="名前をきにゅう">
+          <label><input id="gradeField" aria-label="学年" type="text" inputmode="numeric" value="2" maxlength="2" autocomplete="off"> 年</label>
+          <label><input id="classField" aria-label="組" type="text" maxlength="4" autocomplete="off"> 組</label>
+          <label>なまえ <input id="nameField" class="name" aria-label="なまえ" type="text" maxlength="30" autocomplete="off"></label>
+        </div>
+        <p class="instruction" id="instruction"><span aria-hidden="true">💡</span><span>□ を タッチして、こたえを いれよう。ぜんぶ できたら「こたえあわせ」！</span></p>
+        <div class="question-grid" id="questionGrid"></div>
+        <div class="progress-wrap screen-only"><span id="progressLabel">0 / 20 もん</span><div class="progress" role="progressbar" aria-label="こたえたもんだい" aria-valuemin="0" aria-valuemax="20" aria-valuenow="0" id="progressBar"><div class="progress-inner" id="progressInner"></div></div></div>
+        <div class="grade-area hidden" id="gradeArea" aria-live="polite">
+          <div class="result"><div><p class="result-text" id="resultTitle">よく がんばりました！</p><p class="result-hint" id="resultHint"></p></div><div class="result-score"><span id="scoreNum">0</span> <small>／ 100点</small></div></div>
+          <div class="result-actions screen-only"><button class="btn btn-primary" id="retryBtn" type="button">🔁 まちがえたもんだいに もういちど</button><button class="btn btn-light" id="newAfterBtn" type="button">✨ あたらしい もんだい</button></div>
+        </div>
+      </section>
+      <div class="foot"><span>🧮 こたえは この たんまつの なかだけで けいさんします。そうしんは しません。</span><span>２年生の かけざん れんしゅう</span></div>
+    </div>
+  </main>
+  <div class="floating-keypad" id="keypad" role="group" aria-label="すうじをいれるボタン">
+    <div class="keypad-top"><span id="keypadLabel">1もんめの こたえ</span><button class="keypad-close" id="closeKeypad" type="button">✕ とじる</button></div>
+    <div class="keypad-grid" id="keypadGrid">
+      <button class="key" type="button" data-key="7">7</button><button class="key" type="button" data-key="8">8</button><button class="key" type="button" data-key="9">9</button>
+      <button class="key" type="button" data-key="4">4</button><button class="key" type="button" data-key="5">5</button><button class="key" type="button" data-key="6">6</button>
+      <button class="key" type="button" data-key="1">1</button><button class="key" type="button" data-key="2">2</button><button class="key" type="button" data-key="3">3</button>
+      <button class="key delete" type="button" data-key="del">けす</button><button class="key" type="button" data-key="0">0</button><button class="key action" type="button" data-key="next">つぎへ ➜</button>
+    </div>
+  </div>
+  <script>
+    'use strict';
+    const $ = (id) => document.getElementById(id);
+    const state = {dans:new Set([1,2,3,4,5,6,7,8,9]),questions:[],sheetNo:0,revealed:false,graded:false,lastWrong:[],activeIndex:-1};
+    const allDan = [1,2,3,4,5,6,7,8,9];
+    let printResetTimer;
+
+    function normalizeNumber(text,maxDigits=2){
+      return String(text).normalize('NFKC').replace(/[^0-9]/g,'').slice(0,maxDigits);
+    }
+    function shuffle(a){
+      const arr=[...a];for(let i=arr.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[arr[i],arr[j]]=[arr[j],arr[i]];}return arr;
+    }
+    function renderDanButtons(){
+      const group=$('danGroup');group.innerHTML='';
+      const all=document.createElement('button');all.type='button';all.className='dan dan-all'+(state.dans.size===9?' selected':'');all.textContent='ぜんぶ';all.setAttribute('aria-pressed',String(state.dans.size===9));all.onclick=()=>{state.dans=new Set(allDan);renderDanButtons()};group.append(all);
+      allDan.forEach(n=>{
+        const b=document.createElement('button');b.type='button';b.className='dan'+(state.dans.has(n)?' selected':'');b.textContent=String(n);b.title=`${n}のだん`;b.setAttribute('aria-label',`${n}のだん`);b.setAttribute('aria-pressed',String(state.dans.has(n)));
+        b.onclick=()=>{if(state.dans.has(n)){if(state.dans.size===1){showNotice('１ついじょうの だんを えらんでね。');return}state.dans.delete(n)}else{state.dans.add(n)}renderDanButtons()};group.append(b);
+      });
+    }
+    function selectedDans(){return [...state.dans].sort((a,b)=>a-b)}
+    function buildPairs(count){
+      const dans=selectedDans(),base=dans.flatMap(a=>allDan.map(b=>({a,b,kind:$('typeSelect').value})));
+      let output=[];
+      if($('orderSelect').value==='ordered'){
+        while(output.length<count) output.push(...base);
+      }else{
+        while(output.length<count){let block=shuffle(base);if(output.length && block.length>1 && output[output.length-1].a===block[0].a && output[output.length-1].b===block[0].b){[block[0],block[1]]=[block[1],block[0]]}output.push(...block)}
+      }
+      return output.slice(0,count);
+    }
+    function formatDanSubtitle(){
+      const d=selectedDans();if(d.length===9)return '（ぜんぶの だん）';if(d.length===1)return `（${d[0]}の だん）`;return `（${d.join('・')}の だん）`;
+    }
+    function showNotice(msg){$('instruction').lastElementChild.textContent=msg}
+    function createQuestions(override=null){
+      const hasAnswers=state.questions.some(q=>q.raw!=='');
+      if(!override && hasAnswers && !window.confirm('いまの こたえは きえるよ。あたらしい もんだいを つくる？'))return;
+      state.sheetNo++;state.revealed=false;state.graded=false;state.lastWrong=[];state.activeIndex=-1;
+      const count=Number($('countSelect').value);
+      const pairs=override ? override.map(x=>({a:x.a,b:x.b,kind:x.kind})) : buildPairs(count);
+      state.questions=pairs.map(q=>({...q,raw:''}));
+      $('paperSubtitle').textContent=override?'（まちがえた もんだい）':formatDanSubtitle();
+      $('printId').textContent=`かけざんプリント ${state.sheetNo}`;
+      $('revealBtn').textContent='👀 こたえをみる';$('revealBtn').setAttribute('aria-pressed','false');
+      $('instruction').lastElementChild.textContent='□ を タッチして、こたえを いれよう。ぜんぶ できたら「こたえあわせ」！';
+      $('gradeArea').classList.add('hidden');closeKeypad();renderQuestions();updateProgress();
+      if(override)$('paper').scrollIntoView({behavior:'smooth',block:'start'});
+    }
+    function expected(q){return q.kind==='missing'?q.b:q.a*q.b}
+    function renderQuestions(){
+      const grid=$('questionGrid');grid.innerHTML='';
+      for(let i=0;i<state.questions.length;i++){
+        const q=state.questions[i];const item=document.createElement('div');item.className='q-item';item.dataset.index=String(i);
+        const n=document.createElement('span');n.className='q-number';n.textContent=`${i+1}.`;
+        const eq=document.createElement('div');eq.className='equation';
+        const formula=document.createElement('span');formula.textContent=q.kind==='missing'?`${q.a} ×`:`${q.a} × ${q.b} =`;
+        const input=document.createElement('input');input.type='text';input.className='answer-input';input.setAttribute('inputmode',$('keypadToggle').checked?'none':'numeric');input.setAttribute('aria-label',`${i+1}もんめ ${q.kind==='missing'?q.a+'かける しかく イコール '+(q.a*q.b):q.a+'かける '+q.b+'の こたえ'}`);input.autocomplete='off';input.setAttribute('autocorrect','off');input.setAttribute('spellcheck','false');input.maxLength=2;input.dataset.index=String(i);input.value=q.raw;
+        if(q.kind==='missing'){const end=document.createElement('span');end.textContent=`= ${q.a*q.b}`;eq.append(formula,input,end)}else{eq.append(formula,input)}
+        const mark=document.createElement('span');mark.className='q-mark';mark.setAttribute('aria-hidden','true');
+        const solution=document.createElement('span');solution.className='solution';
+        item.append(n,eq,mark,solution);grid.append(item);
+        input.addEventListener('input',()=>{
+          const clean=normalizeNumber(input.value,q.kind==='missing'?1:2);
+          if(input.value!==clean)input.value=clean;
+          q.raw=clean;if(state.graded)clearGrade();updateProgress();
+        });
+        input.addEventListener('focus',()=>{
+          state.activeIndex=i;input.select();
+          if($('keypadToggle').checked)openKeypad(i);
+        });
+        input.addEventListener('keydown',e=>{
+          if(e.key==='Enter'){e.preventDefault();focusNext(i)}
+        });
+      }
+      updateAnswerVisibility();
+    }
+    function updateProgress(){
+      const done=state.questions.filter(q=>q.raw!=='').length,total=state.questions.length;
+      $('progressLabel').textContent=`${done} / ${total} もん`;
+      $('progressBar').setAttribute('aria-valuemax',String(total));$('progressBar').setAttribute('aria-valuenow',String(done));$('progressInner').style.width=`${total?100*done/total:0}%`;
+    }
+    function clearGrade(){
+      state.graded=false;$('gradeArea').classList.add('hidden');
+      $('questionGrid').querySelectorAll('.q-item').forEach(el=>{el.classList.remove('correct','incorrect');el.querySelector('.q-mark').textContent=''});
+      state.lastWrong=[];
+    }
+    function gradeQuestions(){
+      closeKeypad();state.graded=true;
+      const wrong=[];let correct=0;
+      state.questions.forEach((q,i)=>{
+        const row=$('questionGrid').children[i],right=q.raw!==''&&Number(q.raw)===expected(q);
+        row.classList.toggle('correct',right);row.classList.toggle('incorrect',!right);row.querySelector('.q-mark').textContent=right?'○':'×';
+        if(right)correct++;else wrong.push({...q});
+      });
+      state.lastWrong=wrong;
+      const score=Math.round(100*correct/state.questions.length);
+      $('scoreNum').textContent=String(score);
+      $('resultTitle').textContent=score===100?'💯 ぜんもん せいかい！ すごい！':score>=80?'🌟 よく できました！':'🌱 さいごまで よく がんばったね！';
+      $('resultHint').textContent=`${state.questions.length}もんちゅう ${correct}もん せいかい！${wrong.length?` まちがえた ${wrong.length}もんは なおして もういちど こたえあわせ できるよ。`:' つぎの もんだいにも ちょうせん してみよう！'}`;
+      $('retryBtn').classList.toggle('hidden',wrong.length===0);
+      $('gradeArea').classList.remove('hidden');
+      $('gradeArea').scrollIntoView({behavior:'smooth',block:'nearest'});
+    }
+    function updateAnswerVisibility(){
+      state.questions.forEach((q,i)=>{
+        const row=$('questionGrid').children[i];if(row){row.querySelector('.solution').textContent=state.revealed?`答え ${expected(q)}`:'';}
+      });
+    }
+    function toggleAnswers(){
+      state.revealed=!state.revealed;updateAnswerVisibility();
+      $('revealBtn').textContent=state.revealed?'🙈 こたえを かくす':'👀 こたえをみる';
+      $('revealBtn').setAttribute('aria-pressed',String(state.revealed));
+    }
+    function focusNext(i){
+      let next=i+1;if(next>=state.questions.length){closeKeypad();document.activeElement.blur();return}
+      const input=$('questionGrid').children[next].querySelector('input');input.focus();input.scrollIntoView({behavior:'smooth',block:'center'});
+    }
+    function openKeypad(i){state.activeIndex=i;$('keypadLabel').textContent=`${i+1}もんめ の こたえ`;$('keypad').classList.add('visible')}
+    function closeKeypad(){$('keypad').classList.remove('visible')}
+    function enterKey(k){
+      if(state.activeIndex<0||state.activeIndex>=state.questions.length)return;
+      const q=state.questions[state.activeIndex];
+      if(k==='next'){focusNext(state.activeIndex);return}
+      if(k==='del')q.raw=q.raw.slice(0,-1);
+      else q.raw=(q.raw+k).slice(0,q.kind==='missing'?1:2);
+      const input=$('questionGrid').children[state.activeIndex].querySelector('input');input.value=q.raw;
+      if(state.graded)clearGrade();updateProgress();
+      // keypad buttons do not steal focus, so the current question stays active.
+    }
+    function setKeypadMode(){
+      const enabled=$('keypadToggle').checked;
+      document.querySelectorAll('.answer-input').forEach(el=>el.setAttribute('inputmode',enabled?'none':'numeric'));
+      if(enabled && state.activeIndex>=0)openKeypad(state.activeIndex);else closeKeypad();
+    }
+    function printSheet(){
+      closeKeypad();document.body.classList.add('print-blank');
+      clearTimeout(printResetTimer);
+      window.print();
+      printResetTimer=setTimeout(()=>document.body.classList.remove('print-blank'),60000);
+    }
+    $('createBtn').addEventListener('click',()=>createQuestions());
+    $('newAfterBtn').addEventListener('click',()=>createQuestions());
+    $('gradeBtn').addEventListener('click',gradeQuestions);
+    $('revealBtn').addEventListener('click',toggleAnswers);
+    $('printBtn').addEventListener('click',printSheet);
+    $('retryBtn').addEventListener('click',()=>createQuestions(state.lastWrong));
+    $('keypadToggle').addEventListener('change',setKeypadMode);
+    $('closeKeypad').addEventListener('click',closeKeypad);
+    $('keypadGrid').addEventListener('pointerdown',e=>{if(e.target.closest('button'))e.preventDefault()});
+    $('keypadGrid').addEventListener('click',e=>{const btn=e.target.closest('button[data-key]');if(btn)enterKey(btn.dataset.key)});
+    window.addEventListener('afterprint',()=>{document.body.classList.remove('print-blank');clearTimeout(printResetTimer)});
+    // On touch-first devices, show a child-friendly number pad by default.
+    if(window.matchMedia&&window.matchMedia('(pointer: coarse)').matches)$('keypadToggle').checked=true;
+    renderDanButtons();createQuestions();
+  </script>
+</body>
+</html>
